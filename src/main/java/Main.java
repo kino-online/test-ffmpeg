@@ -14,11 +14,16 @@ import static art.aelaort.FFmpegRunUtils.run;
 
 public class Main {
 	public static void main(String[] args) {
-		String now = LocalDateTime.now().toString()
-				.replace("T", "-")
-				.replaceAll(":", "-");
-		Path dir = Path.of("D:/temp/house-test/result/" + now);
+		String root = "D:/temp/house-test";
+		String srcFile = root + "/House-S07E23.mkv";
+		Path dir = Path.of(root + "/result/" + now());
 
+		test1(dir);
+
+		System.out.println(dir + " finished");
+	}
+
+	private static void test1(Path dir) {
 		String filename1 = "D:/temp/Enola.Holmes.2.2022.1080p.NewComers.mkv";
 		String filename2 = "D:/temp/Shinseiki Evangelion 01 [AC-3 RUS] [ASS RUS] [AAC JPN] [HEVC 1920x1080] [BDRip].mkv";
 		FFmpegProbeResult in = probe(filename2);
@@ -50,6 +55,9 @@ public class Main {
 				);
 			}
 		}).run();
-		System.out.println(dir + " finished");
+	}
+
+	private static String now() {
+		return LocalDateTime.now().toString().replace("T", "-").replaceAll(":", "-");
 	}
 }
