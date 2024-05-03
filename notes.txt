@@ -1,0 +1,16 @@
+https://ottverse.com/hls-packaging-using-ffmpeg-live-vod/
+https://en.wikibooks.org/wiki/FFMPEG_An_Intermediate_Guide
+
+ffmpeg -i Halt.and.Catch.Fire.s03e04.mkv -map 0:a:0 -acodec aac -hls_time 120 aac-ru/index.m3u8
+
+ffmpeg -i Halt.and.Catch.Fire.s03e04.mkv -acodec aac -vcodec libx264 hls/index.m3u8
+
+ffmpeg -i $srcdir/Halt.and.Catch.Fire.s03e04.mkv \
+	-acodec aac \
+	-vcodec libx264 \
+	-hls_time 5 \
+	-hls_playlist_type vod \
+	-hls_flags independent_segments \
+	-hls_segment_type mpegts \
+	-master_pl_name master.m3u8 \
+	$resultdir/index.m3u8
