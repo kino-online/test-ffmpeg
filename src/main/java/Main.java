@@ -1,60 +1,39 @@
-import net.bramp.ffmpeg.FFmpegUtils;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
-import net.bramp.ffmpeg.progress.Progress;
-import net.bramp.ffmpeg.progress.ProgressListener;
+import net.bramp.ffmpeg.progress.DefaultProgressListener;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 
 import static art.aelaort.FFmpegFactory.ffmpegBuilder;
 import static art.aelaort.FFmpegRunUtils.probe;
 import static art.aelaort.FFmpegRunUtils.run;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		String root = "D:/temp/house-test";
 		String srcFile = root + "/House-S07E23.mkv";
 		Path dir = Path.of(root + "/result/" + now());
+		Files.createDirectory(dir);
 
-		test1(dir);
+		test1(srcFile, dir);
 
 		System.out.println(dir + " finished");
 	}
 
-	private static void test1(Path dir) {
-		String filename1 = "D:/temp/Enola.Holmes.2.2022.1080p.NewComers.mkv";
-		String filename2 = "D:/temp/Shinseiki Evangelion 01 [AC-3 RUS] [ASS RUS] [AAC JPN] [HEVC 1920x1080] [BDRip].mkv";
-		FFmpegProbeResult in = probe(filename2);
+	private static void test1(String srcFile, Path dir) {
+		FFmpegProbeResult inProbe = probe(srcFile);
 
-		String ffmpegArgs = "-c copy -map 0 -segment_time 00:00:10 -f segment -reset_timestamps 1 output-%d.ts";
+		String ffmpegArgs = "";
+
 		FFmpegBuilder ffmpegBuilder = ffmpegBuilder()
-				.addInput(filename2)
-//				.addExtraArgs(ffmpegArgs)
-				.addOutput(filename2.replace(".mkv", ".mp4"))
+				.addInput(srcFile)
+				.addExtraArgs(ffmpegArgs)
+				.addOutput(dir + "/index.m3u8")
 				.done();
-		run(ffmpegBuilder, new ProgressListener() {
-
-			// Using the FFmpegProbeResult determine the duration of the input
-			final double duration_ns = in.getFormat().duration * TimeUnit.SECONDS.toNanos(1);
-
-			@Override
-			public void progress(Progress progress) {
-				double percentage = progress.out_time_ns / duration_ns;
-
-				// Print out interesting information about the progress
-				System.out.printf(
-						"[%.0f%%] status:%s frame:%d time:%s ms fps:%.0f speed:%.2fx%n",
-						percentage * 100,
-						progress.status,
-						progress.frame,
-						FFmpegUtils.toTimecode(progress.out_time_ns, TimeUnit.NANOSECONDS),
-						progress.fps.doubleValue(),
-						progress.speed
-				);
-			}
-		}).run();
+		run(ffmpegBuilder, new DefaultProgressListener(inProbe)).run();
 	}
 
 	private static String now() {

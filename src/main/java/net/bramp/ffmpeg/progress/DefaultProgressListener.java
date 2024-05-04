@@ -1,12 +1,13 @@
 package net.bramp.ffmpeg.progress;
 
 import net.bramp.ffmpeg.FFmpegUtils;
+import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 
 import java.util.concurrent.TimeUnit;
 
 public class DefaultProgressListener implements ProgressListener {
-	public DefaultProgressListener(double duration_ns) {
-		this.duration_ns = duration_ns;
+	public DefaultProgressListener(FFmpegProbeResult in) {
+		this.duration_ns = in.getFormat().duration * TimeUnit.SECONDS.toNanos(1);
 	}
 
 	double duration_ns;
