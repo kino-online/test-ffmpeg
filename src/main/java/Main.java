@@ -8,8 +8,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 import static art.aelaort.FFmpegFactory.ffmpegBuilder;
-import static art.aelaort.FFmpegRunUtils.probe;
-import static art.aelaort.FFmpegRunUtils.run;
+import static art.aelaort.FFmpegRunUtils.*;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
@@ -26,12 +25,12 @@ public class Main {
 	private static void test1(String srcFile, Path dir) {
 		FFmpegProbeResult inProbe = probe(srcFile);
 
-		String[] ffmpegArgs = "-map 0:a:0 -acodec aac -hls_time 120".split(" ");
+		String ffmpegArgs = "-map 0:a:0 -acodec aac -hls_time 120";
 
 		FFmpegBuilder ffmpegBuilder = ffmpegBuilder()
-				.addExtraArgs(ffmpegArgs)
 				.addInput(srcFile)
 				.addOutput(dir + "/index.m3u8")
+				.addExtraArgs(args(ffmpegArgs))
 				.done();
 		run(ffmpegBuilder, new DefaultProgressListener(inProbe)).run();
 	}
