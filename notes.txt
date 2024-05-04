@@ -1,6 +1,9 @@
 https://ottverse.com/hls-packaging-using-ffmpeg-live-vod/
 https://en.wikibooks.org/wiki/FFMPEG_An_Intermediate_Guide
 
+https://github.com/bramp/ffmpeg-cli-wrapper/issues/239
+https://www.linux.org.ru/forum/talks/17070792
+
 ffmpeg -i Halt.and.Catch.Fire.s03e04.mkv -map 0:a:0 -acodec aac -hls_time 120 aac-ru/index.m3u8
 
 ffmpeg -i Halt.and.Catch.Fire.s03e04.mkv -acodec aac -vcodec libx264 hls/index.m3u8
