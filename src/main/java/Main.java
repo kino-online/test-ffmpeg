@@ -16,6 +16,7 @@ public class Main {
 		String srcFile = root + "/House-S07E23.mkv";
 		Path dir = Path.of(root + "/result/" + now());
 		Files.createDirectory(dir);
+		System.out.println(dir + " created");
 
 		test1(srcFile, dir);
 
