@@ -1,6 +1,6 @@
+import art.aelaort.DefaultProgressListener;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
-import net.bramp.ffmpeg.progress.DefaultProgressListener;
 
 import java.io.IOException;
 import java.nio.file.Files;
