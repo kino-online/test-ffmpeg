@@ -26,11 +26,11 @@ public class Main {
 	private static void test1(String srcFile, Path dir) {
 		FFmpegProbeResult inProbe = probe(srcFile);
 
-		String ffmpegArgs = "";
+		String[] ffmpegArgs = "-map 0:a:0 -acodec aac -hls_time 120".split(" ");
 
 		FFmpegBuilder ffmpegBuilder = ffmpegBuilder()
-				.addInput(srcFile)
 				.addExtraArgs(ffmpegArgs)
+				.addInput(srcFile)
 				.addOutput(dir + "/index.m3u8")
 				.done();
 		run(ffmpegBuilder, new DefaultProgressListener(inProbe)).run();
