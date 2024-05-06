@@ -1,5 +1,4 @@
-import art.aelaort.DefaultProgressListener;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
+import art.aelaort.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 
 import java.io.IOException;
@@ -7,8 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 
-import static art.aelaort.FFmpegFactory.ffmpegBuilder;
-import static art.aelaort.FFmpegRunUtils.*;
+import static art.aelaort.FFmpegRunUtils.probe;
+import static java.util.List.of;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
@@ -26,14 +25,16 @@ public class Main {
 	private static void test1(String srcFile, Path dir) {
 		FFmpegProbeResult inProbe = probe(srcFile);
 
-		String ffmpegArgs = "-map 0:a:0 -acodec aac -hls_time 120";
-
-		FFmpegBuilder ffmpegBuilder = ffmpegBuilder()
-				.addInput(srcFile)
-				.addOutput(dir + "/index.m3u8")
-				.addExtraArgs(args(ffmpegArgs))
-				.done();
-		run(ffmpegBuilder, new DefaultProgressListener(inProbe)).run();
+		FFmpeg.builder()
+				.input(srcFile)
+				.output((dir + "/index.m3u8"))
+				.args(of("-acodec", "aac", "-vcodec", "h264"))
+				.arg("-hls_time")
+				.arg("120")
+				.arg("")
+				.printOnlyError(true)
+				.build()
+				.run();
 	}
 
 	private static String now() {
