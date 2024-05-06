@@ -1,0 +1,1 @@
+C:\Users\aelaort\.javacpp\cache\ffmpeg-6.1.1-1.5.10-windows-x86_64.jar\org\bytedeco\ffmpeg\windows-x86_64\ffmpeg.exe -i "D:/temp/house-test/House-S07E23.mkv" -acodec aac -vcodec h264 "D:\temp\house-test\result\2024-05-06-19-19-51.717359400/index.m3u8"
