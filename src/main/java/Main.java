@@ -1,4 +1,6 @@
 import art.aelaort.ffmpeg.FFmpeg;
+import art.aelaort.ffprobe.FFprobe;
+import art.aelaort.ffprobe.models.FFprobeResult;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,13 +24,30 @@ public class Main {
 	}
 
 	private static void test1(String srcFile, Path dir) throws IOException {
+		FFprobeResult probe = FFprobe.probe(srcFile);
+		String frameRate = String.valueOf(probe.getVideoStream().getRFrameRate() * 2);
 		FFmpeg ffmpeg = FFmpeg.builder()
-				.input(srcFile)
-				.output((dir + "/index.m3u8"))
-				.args(of("-acodec", "aac", "-vcodec", "h264"))
-//				.arg("-hls_time")
-//				.arg("120")
 				.printOnlyError(false)
+				.input(srcFile)
+				.args("-preset", "slow")
+				.args("-g", frameRate)
+				.args("-sc_threshold", "0")
+
+				.args("-map", "0:0")
+				.args("-map", "0:1")
+				.args("-map", "0:0")
+				.args("-map", "0:1")
+
+				.args("-f", "hls")
+				.args("-hls_playlist_type", "vod")
+				.args("-hls_flags", "independent_segments")
+				.args("-hls_segment_type", "mpegts")
+				.args("-master_pl_name", "master.m3u8")
+
+				.args("-hls_time", "30")
+				.args("-hls_segment_filename", "index_%v/data%02d.ts")
+
+				.output(dir + "/index_%v.m3u8")
 				.build();
 
 		Files.writeString(Path.of("ffmpeg.bat"), ffmpeg.command());
