@@ -7,8 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 
-import static java.util.List.of;
-
 public class Main {
 	public static void main(String[] args) throws IOException {
 		String root = "D:/temp/house-test";
@@ -18,9 +16,49 @@ public class Main {
 
 		System.out.println(dir + " created");
 
-		test1(srcFile, dir);
+		test2(srcFile, dir);
 
 		System.out.println(dir + " finished");
+	}
+
+	private static void test2(String srcFile, Path dir) {
+		FFprobeResult probe = FFprobe.probe(srcFile);
+		String frameRate = String.valueOf(probe.getVideoStream().getRFrameRate() * 2);
+		FFmpeg ffmpeg = FFmpeg.builder()
+				.printOnlyError(false)
+				.input(srcFile)
+				.args("-preset", "slow")
+				.args("-g", frameRate)
+				.args("-sc_threshold", "0")
+
+				.map("0:v:0")
+				.map("0:a:0")
+				.map("0:v:0")
+				.map("0:a:1")
+//				.map("0:s:0")
+//				.map("0:s:1")
+
+				.args("-c:v", "copy")
+//				.args("-c:a", "copy")
+				.args("-c:a", "mp3")
+//				.args("-c:s", "webvtt")
+
+//				.args("-strftime", "1")
+				.args("-f", "hls")
+				.args("-hls_playlist_type", "vod")
+				.args("-hls_flags", "independent_segments")
+				.args("-hls_segment_type", "mpegts")
+				.args("-master_pl_name", "master.m3u8")
+//				.args("-var_stream_map", "\"v:0,a:0,s:1 v:0,a:1,s:0\"")
+				.args("-var_stream_map", "\"v:0,a:0 v:1,a:1\"")
+
+				.args("-hls_time", "30")
+				.args("-hls_segment_filename", dir + "/index_%v/data_%d.ts")
+
+				.output(dir + "/index_%v/index.m3u8")
+				.build();
+
+		saveCommandToBatch(ffmpeg);
 	}
 
 	/**
@@ -70,14 +108,11 @@ public class Main {
 
 	private static void saveCommandToBatch(FFmpeg ffmpeg) {
 		try {
-			Files.writeString(Path.of("ffmpeg.bat"), escape(ffmpeg.command()));
+			String command = ffmpeg.command().replaceAll("%", "%%");
+			Files.writeString(Path.of("ffmpeg.bat"), command);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	private static String escape(String s) {
-		return s.replaceAll("%", "%%");
 	}
 
 	private static String now() {
