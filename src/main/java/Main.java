@@ -23,7 +23,12 @@ public class Main {
 		System.out.println(dir + " finished");
 	}
 
-	private static void test1(String srcFile, Path dir) throws IOException {
+	/**
+	 * из одного файла генерация двух потоков с разными аудио. <p>
+	 * аудио внутри видео файлов, то есть видео дублируется. аудио кодируется в mp3 или ac3 <p>
+	 * videojs не воспроизводит это аудио
+	 */
+	private static void test1(String srcFile, Path dir) {
 		FFprobeResult probe = FFprobe.probe(srcFile);
 		String frameRate = String.valueOf(probe.getVideoStream().getRFrameRate() * 2);
 		FFmpeg ffmpeg = FFmpeg.builder()
@@ -33,22 +38,42 @@ public class Main {
 				.args("-g", frameRate)
 				.args("-sc_threshold", "0")
 
-				.map("0:0").map("0:1")
-				.map("0:0").map("0:1")
+				.map("0:v:0")
+				.map("0:a:0")
+				.map("0:v:0")
+				.map("0:a:1")
+//				.map("0:s:0")
+//				.map("0:s:1")
 
+				.args("-c:v", "copy")
+//				.args("-c:a", "copy")
+				.args("-c:a", "mp3")
+//				.args("-c:s", "webvtt")
+
+//				.args("-strftime", "1")
 				.args("-f", "hls")
 				.args("-hls_playlist_type", "vod")
 				.args("-hls_flags", "independent_segments")
 				.args("-hls_segment_type", "mpegts")
 				.args("-master_pl_name", "master.m3u8")
+//				.args("-var_stream_map", "\"v:0,a:0,s:1 v:0,a:1,s:0\"")
+				.args("-var_stream_map", "\"v:0,a:0 v:1,a:1\"")
 
 				.args("-hls_time", "30")
-				.args("-hls_segment_filename", "index_%v/data%02d.ts")
+				.args("-hls_segment_filename", dir + "/index_%v/data_%d.ts")
 
-				.output(dir + "/index_%v.m3u8")
+				.output(dir + "/index_%v/index.m3u8")
 				.build();
 
-		Files.writeString(Path.of("ffmpeg.bat"), escape(ffmpeg.command()));
+		saveCommandToBatch(ffmpeg);
+	}
+
+	private static void saveCommandToBatch(FFmpeg ffmpeg) {
+		try {
+			Files.writeString(Path.of("ffmpeg.bat"), escape(ffmpeg.command()));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private static String escape(String s) {
