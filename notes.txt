@@ -1,8 +1,18 @@
 https://ottverse.com/hls-packaging-using-ffmpeg-live-vod/
-https://en.wikibooks.org/wiki/FFMPEG_An_Intermediate_Guide
 
 https://github.com/bramp/ffmpeg-cli-wrapper/issues/239
 https://www.linux.org.ru/forum/talks/17070792
+
+https://gist.github.com/lukebussey/4d27678c72580aeb660c19a6fb73e9ee
+
+https://hlsbook.net/creating-a-master-playlist-with-ffmpeg/
+
+https://trac.ffmpeg.org/wiki#Miscellaneous
+
+https://superuser.com/questions/1099442/ffmpeg-and-hls-multiple-audio-renditions
+
+https://stackoverflow.com/questions/67663932/how-to-add-a-subtitle-to-an-hls-playlist-using-ffmpeg
+
 
 ffmpeg -i Halt.and.Catch.Fire.s03e04.mkv -map 0:a:0 -acodec aac -hls_time 120 aac-ru/index.m3u8
 
