@@ -48,7 +48,11 @@ public class Main {
 				.output(dir + "/index_%v.m3u8")
 				.build();
 
-		Files.writeString(Path.of("ffmpeg.bat"), ffmpeg.command());
+		Files.writeString(Path.of("ffmpeg.bat"), escape(ffmpeg.command()));
+	}
+
+	private static String escape(String s) {
+		return s.replaceAll("%", "%%");
 	}
 
 	private static String now() {
