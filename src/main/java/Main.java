@@ -33,10 +33,8 @@ public class Main {
 				.args("-g", frameRate)
 				.args("-sc_threshold", "0")
 
-				.args("-map", "0:0")
-				.args("-map", "0:1")
-				.args("-map", "0:0")
-				.args("-map", "0:1")
+				.map("0:0").map("0:1")
+				.map("0:0").map("0:1")
 
 				.args("-f", "hls")
 				.args("-hls_playlist_type", "vod")
