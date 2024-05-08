@@ -33,7 +33,7 @@ public class Main {
 
 				.map("0:v:0")
 				.map("0:a:0")
-				.map("0:v:0")
+//				.map("0:v:0")
 				.map("0:a:1")
 //				.map("0:s:0")
 //				.map("0:s:1")
@@ -50,7 +50,7 @@ public class Main {
 				.args("-hls_segment_type", "mpegts")
 				.args("-master_pl_name", "master.m3u8")
 //				.args("-var_stream_map", "\"v:0,a:0,s:1 v:0,a:1,s:0\"")
-				.args("-var_stream_map", "\"v:0,a:0 v:1,a:1\"")
+				.args("-var_stream_map", "\"v:0,a:0 a:1\"")
 
 				.args("-hls_time", "30")
 				.args("-hls_segment_filename", dir + "/index_%v/data_%d.ts")
