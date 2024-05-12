@@ -116,6 +116,9 @@ public class Main {
 	}
 
 	private static String now() {
-		return LocalDateTime.now().toString().replace("T", "-").replaceAll(":", "-");
+		return LocalDateTime.now().toString()
+				.replaceAll(":", "_")
+				.replaceAll("-", "_")
+				.replace(".", "_");
 	}
 }
