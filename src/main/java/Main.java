@@ -84,8 +84,8 @@ public class Main {
 //				.map("0:s:1")
 
 				.args("-c:v", "copy")
-//				.args("-c:a", "copy")
-				.args("-c:a", "mp3")
+				.args("-c:a", "copy")
+//				.args("-c:a", "mp3")
 //				.args("-c:s", "webvtt")
 
 //				.args("-strftime", "1")
