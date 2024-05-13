@@ -1,0 +1,25 @@
+Примеры с разбором
+https://ottverse.com/hls-packaging-using-ffmpeg-live-vod/
+https://github.com/bramp/ffmpeg-cli-wrapper/issues/239
+https://www.linux.org.ru/forum/talks/17070792
+https://hlsbook.net/creating-a-master-playlist-with-ffmpeg/
+
+https://gist.github.com/lukebussey/4d27678c72580aeb660c19a6fb73e9ee
+
+https://trac.ffmpeg.org/wiki#Miscellaneous
+https://ffmpeg.org/ffmpeg-all.html
+
+https://superuser.com/questions/1099442/ffmpeg-and-hls-multiple-audio-renditions
+
+Субтитры
+https://stackoverflow.com/questions/67663932/how-to-add-a-subtitle-to-an-hls-playlist-using-ffmpeg
+
+Маппинг
+https://kaielwooddieu.medium.com/how-to-use-videojs-and-ffmpeg-to-use-videos-with-multiple-audio-streams-on-your-site-ca289113f7d8
+
+duration https://stackoverflow.com/a/66118792/15337095
+
+требования к плейлисту - указания битрейта https://stackoverflow.com/a/55695006/15337095
+
+копирование потока с переменным фпс в файл который это не поддерживает
+https://superuser.com/questions/710008/how-to-get-rid-of-ffmpeg-pts-has-no-value-error
