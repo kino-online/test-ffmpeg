@@ -10,12 +10,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 
+import static java.util.List.of;
+
 public class Main {
 	public static void main(String[] args) throws IOException {
 		String resultDir = "D:/temp/result/";
 		String root = "D:/temp";
-//		String srcFile = root + "/1/1.mp4";
-		String srcFile = root + "/2/House-S07E23.mkv";
+//		String srcFile = root + "/1/2.mp4";
+		String srcFile = root + "/2/4-15 Houses Head (HD).mkv";
 //		String srcFile = root + "/4/[061] Supernatural S04EP01 - Lazarus Rising.mkv";
 		String now = now();
 		Path dir = Path.of(resultDir + now);
@@ -45,7 +47,7 @@ public class Main {
 				.map("0:v:0")
 				.map("0:a:0")
 //				.map("0:v:0")
-				.map("0:a:1")
+//				.map("0:a:1")
 //				.map("0:s:0")
 //				.map("0:s:1")
 
@@ -63,9 +65,10 @@ public class Main {
 				.args("-hls_segment_type", "mpegts")
 				.args("-master_pl_name", "master.m3u8")
 //				.args("-var_stream_map", "\"v:0,a:0,s:1 v:0,a:1,s:0\"")
-				.args("-var_stream_map", "\"v:0,a:0 a:1\"")
+//				.args("-var_stream_map", "\"v:0,a:0 a:1\"")
+				.args("-var_stream_map", "\"v:0,a:0\"")
 
-				.args("-hls_time", "30")
+				.args("-hls_time", "6")
 				.args("-hls_segment_filename", dir + "/index_%v/data_%d.ts")
 
 				.output(dir + "/index_%v/index.m3u8")
