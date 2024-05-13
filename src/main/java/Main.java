@@ -12,9 +12,12 @@ import java.time.LocalDateTime;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		String root = "D:/temp/house-test";
-		String srcFile = root + "/House-S07E23.mkv";
-		Path dir = Path.of(root + "/result/" + now());
+		String resultDir = "D:/temp/result/";
+		String root = "D:/temp";
+//		String srcFile = root + "/1/1.mp4";
+		String srcFile = root + "/2/House-S07E23.mkv";
+		String now = now();
+		Path dir = Path.of(resultDir + now);
 		Files.createDirectory(dir);
 
 		System.out.println(dir + " created");
