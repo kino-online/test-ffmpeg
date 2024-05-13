@@ -49,9 +49,11 @@ public class Main {
 //				.map("0:s:0")
 //				.map("0:s:1")
 
-				.args("-c:v", "copy")
-//				.args("-c:a", "copy")
-				.args("-c:a", "mp3")
+				.args("-c:v:0", "h264")
+				.args("-b:v:0", String.valueOf(probe.getVideoStream().getBitRate()))
+				.args("-c:a:0", "aac")
+				.args("-b:a:0", String.valueOf(probe.getAudioStreams().get(0).getBitRate()))
+				.args("-ac", "2") // преобразование в стерео (2 канала)
 //				.args("-c:s", "webvtt")
 
 //				.args("-strftime", "1")
