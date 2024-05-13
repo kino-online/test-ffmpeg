@@ -2,6 +2,9 @@ import art.aelaort.ffmpeg.FFmpeg;
 import art.aelaort.ffprobe.FFprobe;
 import art.aelaort.ffprobe.models.FFprobeResult;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,6 +22,8 @@ public class Main {
 		test2(srcFile, dir);
 
 		System.out.println(dir + " finished");
+		System.out.println("dir named save to clipboard");
+		copyToClipboard(now);
 	}
 
 	private static void test2(String srcFile, Path dir) {
@@ -121,5 +126,11 @@ public class Main {
 				.replaceAll(":", "_")
 				.replaceAll("-", "_")
 				.replace(".", "_");
+	}
+
+	private static void copyToClipboard(String s) {
+		StringSelection stringSelection = new StringSelection(s);
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		clipboard.setContents(stringSelection, null);
 	}
 }
