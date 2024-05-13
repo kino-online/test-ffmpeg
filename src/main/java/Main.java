@@ -27,6 +27,7 @@ public class Main {
 		FFmpeg ffmpeg = FFmpeg.builder()
 				.printOnlyError(false)
 				.input(srcFile)
+				.inputDuration("120")
 				.args("-preset", "slow")
 				.args("-g", frameRate)
 				.args("-sc_threshold", "0")
