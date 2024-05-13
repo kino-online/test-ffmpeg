@@ -23,3 +23,6 @@ duration https://stackoverflow.com/a/66118792/15337095
 
 копирование потока с переменным фпс в файл который это не поддерживает
 https://superuser.com/questions/710008/how-to-get-rid-of-ffmpeg-pts-has-no-value-error
+
+аудио в стерео
+https://superuser.com/questions/1681970/turning-a-5-1-mkv-into-2-0-or-2-1
