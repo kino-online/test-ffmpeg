@@ -16,6 +16,7 @@ public class Main {
 		String root = "D:/temp";
 //		String srcFile = root + "/1/1.mp4";
 		String srcFile = root + "/2/House-S07E23.mkv";
+//		String srcFile = root + "/4/[061] Supernatural S04EP01 - Lazarus Rising.mkv";
 		String now = now();
 		Path dir = Path.of(resultDir + now);
 		Files.createDirectory(dir);
@@ -34,6 +35,7 @@ public class Main {
 		String frameRate = String.valueOf(probe.getVideoStream().getRFrameRate() * 2);
 		FFmpeg ffmpeg = FFmpeg.builder()
 				.printOnlyError(false)
+//				.preInputArgs(of("-fflags", "+genpts")) // для переменной частоты кадров в инпуте
 				.input(srcFile)
 				.inputDuration("120")
 				.args("-preset", "slow")
